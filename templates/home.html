@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Your Bank Account</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+            integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    </head>
+    <body>
+        <nav class="navbar navbar-light bg-dark">
+            <div class="container">
+                <a class="navbar-brand text-white" href="#">Welcome, {{user['username']}}</a>
+                <button class="btn btn-danger" type="button"><a class="text-white text-decoration-none" href="/logout">Logout</a></button>
+            </div>
+        </nav>
+        
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="container mt-3">
+                    {% for message in messages %}
+                        <div class="alert alert-info alert-dismissable">{{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <div class="container mt-4">
+            <form method="post">
+                <div class="mb-3">
+                    <label for="amount" class="form-label">Amount to withdraw or deposit</label>
+                    <input type="number" class="form-control" id="amount" name="amount" step="0.01" min="0" required>
+                </div>
+                <div class="mb-3">
+                    <label for="transactionType" class="form-label">Transaction Type</label>
+                    <select class="form-control" id="transactionType" name="transactionType" required>
+                        <option value="deposit">Deposit</option>
+                        <option value="withdraw">Withdraw</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary" name="transaction">Submit</button>
+            </form>
+
+            <h1 class="text-center">Your Account Details</h1>
+            <h3>Balance: ${{user['balance']}}</h3>
+
+            <h3 class="text-center">Transaction History:</h3>
+            <table class="table mt-4">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Transaction Type</th>
+                        <th>Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for transaction in user['transactions'] %}
+                    <tr>
+                        <td>{{ transaction['date'] }}</td>
+                        <td>{{ transaction['type'] }}</td>
+                        <td>${{ transaction['amount']}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <button type="button" class="btn btn-danger"><a class="text-white text-decoration-none" href="/clear_transactions">Clear Transaction History</a></button>
+        </div>
+    </body>
+</html>
