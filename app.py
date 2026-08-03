@@ -53,7 +53,6 @@ def home():
         user = accounts.users.find_one({'username': session['username']})
         return render_template('home.html', user=user)
     elif request.method == 'POST':
-        print(request.form)
         transaction_type = request.form.get('transactionType')
         if transaction_type == 'deposit':
             amount = float(request.form.get('amount'))
