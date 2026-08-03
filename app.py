@@ -63,7 +63,7 @@ def home():
                     '$push': {'transactions': {
                         'type': 'deposit',
                         'amount': amount,
-                        'date': datetime.datetime.now()
+                        'date': datetime.datetime.now().strftime("%m-%d-%Y %H:%M:%S")
                     }}
                 }
             )
@@ -81,7 +81,7 @@ def home():
                     '$push': {'transactions': {
                         'type': 'withdraw',
                         'amount': amount,
-                        'date': datetime.datetime.now()
+                        'date': datetime.datetime.now().strftime("%m-%d-%Y %H:%M:%S")
                     }}
                 }
             )
